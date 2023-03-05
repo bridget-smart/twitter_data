@@ -33,7 +33,7 @@ def process_tweets(t):
         for u in t['data']:
             tweets.append(u)
 
-        return(users, tweets)
+        return(pd.DataFrame(users), pd.DataFrame(tweets))
     except:
         return(np.nan, np.nan)
     
@@ -72,8 +72,8 @@ def search_tweets(q, query_until, most_recent_t,N, data_path, file_name, bearer_
 
         oldest_t = tw[-1:][0]['created_at']
 
-        tweets_save=tweets_save.append(tw)
-        users_save=users_save.append(u)
+        tweets_save=pd.concat([tweets_save,tw], axis=0, join='outer')
+        users_save=pd.concat([users_save,u], axis=0, join='outer') 
         
     else:
         oldest_t = most_recent_t
@@ -103,8 +103,8 @@ def search_tweets(q, query_until, most_recent_t,N, data_path, file_name, bearer_
             a=0
 
             
-            tweets_save=tweets_save.append(tw)
-            users_save=users_save.append(u)
+            tweets_save=pd.concat([tweets_save,tw], axis=0, join='outer')
+            users_save=pd.concat([users_save,u], axis=0, join='outer') 
 
             # if length > some number then save
 
