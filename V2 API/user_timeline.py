@@ -4,8 +4,10 @@ import json
 import pandas as pd
 import numpy as np
 import time
+# To set your environment variables in your terminal run the following line:
+# export 'BEARER_TOKEN'='<your_bearer_token>'
+bearer_token = "AAAAAAAAAAAAAAAAAAAAALW5NwEAAAAAgRWt0zN6BZhWsodtxft0oYzvuks%3De7zr1szz6jnKxLXR7IZXkAVZLQOKlc8bH3Bnio3eaPox2JqvUV"
 
-bearer_token = ""
 
 def create_url(user_id):
     # Replace with user ID below
@@ -65,9 +67,6 @@ def process_tweets(t):
         return(np.nan, np.nan)
 
 def get_tweets_by_user(user_id):
-    '''
-    Function to get the most recent 3200 tweets from a user's (given by user id) timeline.
-    '''
     tweets_save=pd.DataFrame(columns = ['lang', 'id', 'text', 'author_id', 'created_at', 'entities', 'source', 'public_metrics'])
     users_save = pd.DataFrame(columns = ['public_metrics', 'created_at', 'location', 'id', 'protected', 'url', 'username', 'name', 'description'])
 
@@ -83,7 +82,10 @@ def get_tweets_by_user(user_id):
 
     t=json_response #json.dumps(json_response, sort_keys=True)
     # print(t)
-    token = t['meta']['next_token']
+    try:
+        token = t['meta']['next_token']
+    except:
+        token = None
 
     u, tw = process_tweets(t)
     
